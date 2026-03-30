@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+@*@{ var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie(); }*@
+@{
+    var isConsentePresten = Context.Request.Cookies.ContainsKey("IDPCookieConsent");
+    var cookieString = "IDPCookieConsent=yes; expires=" + DateTimeOffset.Now.AddYears(1).ToString("ddd, dd MMM yyy HH:mm:ss 'GMT'") + "; path=/;";
+}
+
+@if (!isConsentePresten)
+{
+    <style>
+        .backdrop {
+            position: fixed;
+            bottom: 0;
+            left: 0px;
+            z-index: 2000;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            flex: 1 1 auto;
+        }
+
+        #cookieConsent {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1;
+            bottom: 10px;
+        }
+
+        .CookieButton {
+            background-color: #aacc1a;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 7px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            height: 40px;
+            width: 100px;
+            margin: 0;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            background-color: #6FAE8E;
+        }
+
+            .CookieButton:hover{
+                background-color: #5E9B7C;
+                color:#fff;
+            }
+
+        .DeclinedCookiesBtn {
+                border: none;
+                border-radius: 4px;
+                color: white;
+                padding: 7px;
+                text-align: center;
+                text-decoration: none;
+                background-color: gray;
+                display: flex;
+                align-items: baseline;
+                justify-content: center;
+                height: 40px;
+                width: 100px;
+                margin: 0px 5px;
+                cursor: pointer;
+                text-transform: uppercase;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 18px;
+                box-sizing: border-box;
+            background-color: #8F8F8F;
+            color: #FFFFFF;
+        }
+
+            .DeclinedCookiesBtn:hover{
+                background-color: #7A7A7A;
+                color:#fff;
+            }
+
+        @@media only screen and (max-width: 500px) {
+            #mainDiv {
+                flex-direction: column !important;
+                border-radius: 22px !important;
+            }
+
+            #mainMsg {
+                text-align: center !important;
+                font-size: 12px;
+                margin: 10px 0px;
+            }
+
+            .CookieButton {
+                font-size: 15px;
+                height: auto;
+                width: auto;
+            }
+
+            .DeclinedCookiesBtn {
+                font-size: 15px;
+                height: auto;
+                width: auto;
+            }
+        }
+    </style>
+    <div class="backdrop">
+        <div id="cookieConsent">
+            <div class="d-flex justify-content-center container mt-5">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div id="mainDiv" class="d-flex flex-row justify-content-between align-items-center card cookie p-3">
+                            <div id="mainDiv" class="d-flex flex-row align-items-center">
+                                <img alt="Cookie Logo" src="~/assets/@name/NewLogo/icons/Cookies.png" width="40">
+                                <div id="mainMsg" class="ml-2 mr-2" style="font-weight: bold; color: black;"><span>This website stores data such as cookies to enable site functionality. By using this website, you automatically accept that we use cookies.<br></span></div>
+                            </div>
+                            <div> <button type="button" class="btn btn-default CookieButton" data-cookie-string="@cookieString">Accept</button></div>
+                            <div> <button type="button" class="btn btn-default DeclinedCookiesBtn">Decline</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
+                document.cookie = el.target.dataset.cookieString;;
+                document.getElementById("cookieConsent").style.display = "none";
+                document.querySelector(".backdrop").style.display = "none";
+            }, false);
+
+             document.querySelector(".DeclinedCookiesBtn").addEventListener("click", function (el) {
+                swal({
+                    title: "Cookies Consent",
+                    text: `All cookies are mandatory for authentication. \n Click on 'Accept' button to allow cookies permission.`,
+                    type: "info",
+                    //showCancelButton: true,
+                    confirmButtonText: "Ok",
+                    //cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    //closeOnCancel: true
+                }, function (isConfirm) {
+                    @*if (isConfirm) {
+                        var cookiesdiv = document.querySelector("#cookieConsent button[data-cookie-string]");
+                        document.cookie = cookiesdiv.dataset.cookieString;;
+                        document.getElementById("cookieConsent").style.display = "none";
+                        document.getElementById("cookieConsent").style.display = "none";
+                        document.querySelector(".backdrop").style.display = "none";
+                    }
+                    else {
+                        if (redirectUrl == "")
+                            window.location.href = LoginControllerUrl + "/Error?error=access_denied&error_description=user not authenticated"
+                        else
+                            window.location.href = redirectUrl + "?error=access_denied&error_description=user not authenticated&state=" + state
+
+                    }*@
+                 });
+            }, false);
+        })();
+
+    </script>
+}

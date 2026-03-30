@@ -1,0 +1,522 @@
+﻿@using Microsoft.AspNetCore.Html
+@model DTPortal.IDP.ViewModel.Login.LoginViewModel
+@using System.Text.Json
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+
+@{
+    ViewData["Title"] = "Login";
+    var name = Configuration["ProjectName"];
+}
+
+<link rel="stylesheet" href="~/assets/@name/appcss/LoginPage.css">
+<style>
+    .auth-box {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+    }
+</style>
+
+
+<div id="overlay">
+    <div class="cv-spinner">
+        <span class="spinner">
+
+        </span>
+    </div>
+</div>
+<div id="overlay2">
+    <div class="cv-spinner">
+        <span class="spinner">
+
+        </span>
+    </div>
+</div>
+@* <div id="networkOverlay" style="position: fixed; top: 0; z-index: 100000; width: 100%; height: 100%; background-color:rgba(0,0,0,0.3);">
+<div class="cv-spinner">
+    <span class="spinner">
+
+    </span>
+</div>
+</div> *@
+<div id="overlay1">
+</div>
+<section class="myform-area" style=" background-image: url('assets/@name/NewLogo/PNG/UaeBackground.png');">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-area login-form" style="background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 20%, rgba(255,255,255,0.4) 20%),url('assets/@name/NewLogo/SVG/Gr.svg');">
+                    <div class="form-content d-flex align-items-center">
+                        <img alt="app-logo" class="icon-img" src="~/assets/@name/NewLogo/PNG/UaeLogo.png" />
+                    </div>
+                    <div class="form-input" id="USER">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="UserForm" novalidate>
+                            <div>
+                                <p id="USERerror" class="danger" @*style="display: block;"*@>
+
+                                    @if (Model.error != null)
+                                    {
+                                        @Model.error
+                                    }
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="username" name="username" required />
+                                <label for="username">Email / Mobile Number</label>
+                            </div>
+                            <div class="myform-button">
+                                <button class="myform-btn" type="button" id="checkUser">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="PASSWORD" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="PASSWORDForm" novalidate>
+                            <div>
+                                <p id="PASSWORDerror" class="info" style="visibility: hidden;">
+
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="PASSWORDuserName" name="username" readonly />
+                                <input id="PASSWORDauthScheme" name="authScheme" type="hidden" value="PASSWORD">
+                            </div>
+                            <div class="form-group" id="pwd">
+                                <div class="input-box">
+                                    <input class="pwd" type="text" id="password" name="password" required />
+                                    <label for="password">Password</label>
+                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>
+                            </div>
+                            <div class="myform-button">
+                                <button class="myform-btn" type="button" id="checkPassword">Submit</button>
+                                <div class="loginSignUpSeparator "><span class="textInSeparator">OR</span></div>
+                                <button id="forgotPassword" onclick="ForgotPassword();">Forgot Password</button>
+                            </div>
+
+                            <div class="myform-button">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="QRCODE" style="display:none;padding:25px;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="QRCODEForm" novalidate>
+                            <div>
+                                <p id="QRCODEerror" class="info" style="visibility: hidden;"></p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="QRCODEuserName" name="username" readonly />
+                                <div id="QRCODEdata" class="qr-container"></div>
+                                <!-- Instructions placed here -->
+                                @* <p class="qr-instructions" style="color: white; font-size: 14px; margin-top: 10px;">
+                                To sign in, scan this QR code with your registered mobile authentication app. If you don’t have the app, please download it from the iOS or Android QR codes provided below.
+                                </p> *@
+                                <div class="info-details">
+
+                                   
+                                    <span class="infoMSG">
+                                        To sign in, Open your<img class="info-logo-img" alt="Info logo" src="~/assets/@name/NewLogo/PNG/UaeidLogo.png" />app. Go to Document Vault and Click on Scan QR Code and Scan the QR
+                                    </span>
+                                </div>
+                                <input id="QRCODEauthScheme" name="authScheme" type="hidden" value="QRCODE">
+                            </div>
+                            <div class="myform-button"></div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="PUSH_NOTIFICATION" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="PUSH_NOTIFICATIONForm" novalidate>
+                            <div>
+                                <p id="PUSH_NOTIFICATIONerror" class="info" style="visibility: hidden;">
+
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="PUSH_NOTIFICATIONuserName" name="username" readonly />
+                                <input id="PASSWORDauthScheme" name="authScheme" type="hidden" value="PASSWORD">
+                            </div>
+                            <div class="pushNotificationDiv">
+
+                                <div id="timerDiv">Resend code in <span id="timer">00</span> sec</div>
+                                <span class="NotificationCode" id="PushNotificationCode"></span>
+
+                            </div>
+
+                            <div class="info-details">
+
+                                <span class="info-title">Check&nbsp; <imgm alt="app-logo" class="info-logo-img" src="~/assets/@name/NewLogo/PNG/UaeidLogo.png" /> Mobile Application</span>
+                                <span class="infoMSG">
+                                    Select the above displayed number to sign in
+                                </span>
+                            </div>
+                            <br/>
+                            <br />
+                      @*       <div class="text-center mt-2">
+                                <button  onclick="showOptions()" class="text-primary" style="text-decoration: underline;">
+                                    Try Another Way
+                                </button>
+                            </div> *@
+
+                        </form>
+                    </div>
+                    <div class="form-input" id="FIDO2" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="FIDO2Form" novalidate>
+                            <div>
+                                <p id="FIDO2error" class="danger hide" @*style="display: block;"*@>
+
+                                    @*@if (Model.error != null)
+                                    {
+                                    @Model.error
+                                    }*@
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="FIDO2userName" name="userName" readonly />
+                                <input type="hidden" id="FIDOOption" name="FIDOOption" />
+                            </div>
+                            <div class="myform-button" style="display: flex;justify-content: center;margin-top: 30px;">
+                                <button class="myform-btn" type="submit" id="registerBtn">Next</button>
+                                <button class="myform-btn" type="button" id="cancle"
+                                        style="background-color: #a29595;margin-left: 1vh;display: none">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="MOBILE_TOTP" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="MOBILE_TOTPForm" novalidate>
+                            <div>
+                                <p id="MOBILE_TOTPerror" class="info" style="visibility: hidden;">
+
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="MOBILE_TOTPuserName" name="username" readonly />
+                                <input id="PASSWORDauthScheme" name="authScheme" type="hidden" value="PASSWORD">
+                            </div>
+                            <div class="pushNotificationDiv" style="visibility:hidden;">
+
+                                <div>Resend code in <span>00</span> sec</div>
+                                <span class="NotificationCode"></span>
+
+                            </div>
+                            <div class="info-details">
+
+                                <span class="info-title">Check&nbsp; <img alt="Info Logo" class="info-logo-img" src="~/assets/@name/NewLogo/PNG/UaeidLogo.png" /> Mobile Application</span>
+                                <span class="infoMSG">
+                                    Approve authentication request for sign in
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="TOTP" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="TOTPForm" novalidate>
+                            <div>
+                                <p id="TOTPerror" class="info" style="visibility: hidden;">
+
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="TOTPuserName" name="username" readonly />
+                                <input id="TOTPauthScheme" name="authScheme" type="hidden" value="TOTP">
+                            </div>
+                            <div class="form-group" id="pwd">
+                                <div class="input-box">
+                                    <input type="password" id="totp" name="password" required />
+                                    <label for="totp" id="totpType">TOTP</label>
+                                    @* <span toggle="#totp" class="toggle-password"></span> *@
+                                </div>
+                            </div>
+                            <div class="myform-button">
+                                <button class="myform-btn" type="button" id="checkTOTP">Submit</button>
+                            </div>
+                            <div class="myform-button">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="WEB_PIN" style="display:none;">
+                        <h1>Sign in</h1>
+                        <form action="" method="POST" id="WEB_PINForm" novalidate>
+                            <div>
+                                <p id="WEB_PINerror" class="info" style="visibility: hidden;">
+
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="WEB_PINuserName" name="username" readonly />
+                                <input id="WEB_PINauthScheme" name="authScheme" type="hidden" value="WEB_PIN">
+                            </div>
+                            <div class="form-group" id="pwd">
+                                <div class="input-box">
+                                    <input class="pwd" type="text" id="pin" name="password" required />
+                                    <label for="pin">Pin</label>
+                                    <span toggle="#pin" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>
+                            </div>
+                            <div class="myform-button">
+                                <button class="myform-btn" type="button" id="checkPin">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-input" id="WEB_FACE" style="display:none">
+                        <h1 style="text-align:center;font-size: 200%;">Face Authentication</h1>
+                        <img alt="Face Logo" style="display:none;margin-left:auto;margin-right:auto" id="camblock" src="~/assets/faceauth.png" height="200" width="200" />
+                        <div class="myform-button" style="display:none;margin-top:0" id="recapturediv">
+                            <button style="margin-left:auto;width:30%" class="myform-btn" type="button" id="recapture">Retry</button>
+                            <button style="margin-left:10%;margin-right:auto;width:30%" class="myform-btn" type="button" id="cancelface">Cancel</button>
+
+                        </div>
+
+
+
+                        <div class="loading" id="camload" style="position:absolute;margin-left:40%;margin-top:30%">
+                            @* <span class="loading__dot"></span>
+                            <span class="loading__dot"></span>
+                            <span class="loading__dot"></span> *@
+                            <span style="--i:1;"></span>
+                            <span style="--i:2;"></span>
+                            <span style="--i:3;"></span>
+                            <span style="--i:4;"></span>
+                            <span style="--i:5;"></span>
+                            <span style="--i:6;"></span>
+                            <span style="--i:7;"></span>
+                            <span style="--i:8;"></span>
+                            <span style="--i:9;"></span>
+                            <span style="--i:10;"></span>
+                            <span style="--i:11;"></span>
+                            <span style="--i:12;"></span>
+                            <span style="--i:13;"></span>
+                            <span style="--i:14;"></span>
+                            <span style="--i:15;"></span>
+                        </div>
+                        <div style="position:relative;">
+                            <video style="display:none;margin-bottom:5%" id="video" class="loading" width="309" height="233" autoplay muted></video>
+                            <img alt="Face" style="display:none;margin-bottom:5%" id="imagedisplay" src="" height="233" width="309" />
+                            <p id="faceinstructions" style="color:red;text-align:center;display:none">Please come closer!!!</p>
+
+                        </div>
+
+                    </div>
+                    <div class="row footer">
+                        <img alt="UAE Powered By" src="~/assets/@name/NewLogo/PNG/UaePoweredby.png" class="left" />
+                        <img alt="MyTrust Powered By" src="~/assets/@name/NewLogo/PNG/MytrustPoweredBy.png" class="right" />
+                    </div>
+                </div>
+
+            </div>
+            <!--new popup Model-->
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="row closerdiv">
+                        <span class="close-button">×</span>
+                    </div>
+                    <div class="row jc-c GuiedlineHead">
+                        <h3>Registration Guidelines<h3>
+                    </div>
+                    <div class="row jc-c" id="appQrCode">
+                        <div class="col-6"><img alt="IOS Logo" src="~/assets/ios-qr.png" class="qr-code img-thumbnail img-responsive"><h4>IOS</h4></div>
+                        <div class="col-6"><img alt="Android Logo" src="~/assets/android-qr.png" class="qr-code img-thumbnail img-responsive"><h4>Android</h4></div>
+                        
+                    </div>
+                    <div class="row jc-c">
+                        <ul class="step">
+                            <li>
+                                <span>1) Scan the above QR code To download device specific UAEID App </span>
+                            </li>
+
+                            <li>
+                                <span>2) Onboard yourself to UAEID App using National ID card or Passport </span>
+                            </li>
+
+                            <li>
+                                <span>3) Complete the onboarding step to register successfully.</span>
+                            </li>
+
+                            <li>
+                                <span>4) Login with UAEID to access UAEID Services.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row closerdiv">
+                        <button class="close-btn cls-btn3" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="activatesubscriber">
+                <div class="modal-content">
+                    <div class="row closerdiv">
+                        <span class="close-button cls-btn1">×</span>
+                    </div>
+                    <div class="row jc-c GuiedlineHead">
+                        <h3>Account Activation Guidelines</h3>
+                    </div>
+                    <div class="row jc-c">
+                        <ul class="step">
+                            <li>
+                                <span>1) Open UAEID Mobile Application.</span>
+                            </li>
+
+                            <li>
+                                <span>2) On dashboard page click on "Reset PIN". </span>
+                            </li>
+
+                            <li>
+                                <span>3) Click on "Reset Authentication PIN"</span>
+                            </li>
+
+                            <li>
+                                <span>4) Follow displayed verification process.</span>
+                            </li>
+
+                            <li>
+                                <span>5) After successfull verification,Account will be Unlocked.</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="row closerdiv">
+                        <button class="close-btn cls-btn2" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="authenticationmethods">
+                <div class="modal-content">
+                    <div class="row jc-c GuiedlineHead">
+                        <h3>Choose one of these methods to authenticate</h3>
+                    </div>
+                    <div class="authentication-boxes">
+                        <button class="auth-box large-font" onclick="AssistedAuthentication('WEB_FACE')">
+                            <div class="circle">
+                                <img src="~/assets/NewLogo/PNG/face_green.png" alt="Sample logo">
+                            </div>
+                            <div class="text-content">
+                                <div>FACE Authentication</div>
+                                <div class="auth-description small-font">Authenticate quickly and securely using face recognition technology</div>
+                            </div>
+                        </button>
+                        <button class="auth-box large-font" onclick="AssistedAuthentication('WEB_PIN')">
+                            <div class="circle">
+                                <img src="~/assets/NewLogo/PNG/pin_green.png" alt="Sample Logo">
+                            </div>
+                            <div class="text-content">
+                                <div>PIN Authentication</div>
+                                <div class="auth-description small-font">Authenticate securely with your personal identification number </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="authSchemaModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="authSchemaModalLabel">Choose other Sign-In options</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: left; margin-top: 10px;">
+                            <label for="authSchemaSelect" style="font-weight: bold; display: block; margin-bottom: 5px;">
+                                Available Options:
+                            </label>
+                            <select id="authSchemaSelect" class="form-select">
+                                @foreach (var schema in Model.AuthSchemas)
+                                {
+                                    <option value="@schema.Key">@schema.Value</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelAuthModalBtn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="confirmAuthScheme">Continue</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Responsive Timeout Modal -->
+            <!-- Responsive Timeout Modal (hidden by default) -->
+            <div class="custom-timeout-modal" id="customTimeoutModal" tabindex="-1" role="dialog">
+                <div class="custom-timeout-modal-content">
+                    <!-- Close Button -->
+                    <button type="button" class="custom-timeout-modal-close" id="closeTimeoutModal">&times;</button>
+                    <!-- Error Icon -->
+                    <div class="custom-timeout-modal-icon">
+                        <img src="~/assets/NewLogo/PNG/cross.png" alt="Error" />
+                    </div>
+                    <!-- Title -->
+                    <h4 class="custom-timeout-modal-title">Request Time Out</h4>
+                    <!-- Body -->
+                    <p class="custom-timeout-modal-body">
+                        We sent a push notification to your UAEID mobile app,
+                        but we didn't get a response.
+                        Please check your internet connection in mobile and click on the 'Resend notification' button to resend notification.
+                    </p>
+                    <!-- Footer Buttons -->
+                    <div class="custom-timeout-modal-footer">
+                        <button type="button" class="custom-timeout-btn-alt" id="tryAnotherWay">Try Another Way</button>
+                        <button type="button" class="custom-timeout-btn-main" id="retryRequest">Resend Notification</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Responsive Wrong Credential Modal (hidden by default) -->
+            <div class="wrong-credential-modal" id="wrongCredentialModal" tabindex="-1" role="dialog">
+                <div class="wrong-credential-modal-content">
+                    <!-- Close Button -->
+                    <button type="button" class="wrong-credential-modal-close" id="wrongCredentialCloseTimeoutModal">&times;</button>
+                    <!-- Error Icon -->
+                    <div class="wrong-credential-modal-icon">
+                        <img src="~/assets/NewLogo/PNG/cross.png" alt="Error" />
+                    </div>
+                    <!-- Title -->
+                    <h4 class="wrong-credential-modal-title">The selected Code or PIN you have entered is incorrect.</h4>
+                    <!-- Body -->
+                    <p class="wrong-credential-modal-body">
+                        The selected Code or PIN you have entered is incorrect.
+                        Do you want to reauthenticate?
+                        Please click on the 'Resend notification' button to resend notification.
+                    </p>
+                    <!-- Footer Buttons -->
+                    <div class="wrong-credential-modal-footer">
+                        <button type="button" class="wrong-credential-btn-alt" id="wrongCredentialTryAnotherWay">Try Another Way</button>
+                        <button type="button" class="wrong-credential-btn-main" id="wrongCredentialRetryRequest">Resend Notification</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="dataId" data-method='@Model.Method' data-target='@Model.Target' hidden></div>
+    </div>
+    <div class="row Pagefooter">
+        <!--<img src="~/assets/NewLogo/SVG/DtLogo.svg" />-->
+    </div>
+</section>
+
+
+@section Scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+
+    <script type="text/javascript">
+        var method = "@Model.Method";
+        var target = "@Model.Target";
+        window.authSchemas = @Html.Raw(JsonSerializer.Serialize(Model.AuthSchemas));
+        //window.authSchemas = @Html.Raw(Json.Serialize(Model.AuthSchemas));
+
+
+
+    </script>
+
+    @*<script src="/global_assets/js/main/jquery.min.js" asp-append-version="true"></script>*@
+
+    <script src="~/lib/loginJsCss/helpers.js"></script>
+    <script src="~/lib/loginJsCss/face-api.min.js"></script>
+    <script src="~/lib/loginJsCss/passwordless.login.js"></script>
+    <script src="~/lib/loginJsCss/login.js"></script>
+
+}

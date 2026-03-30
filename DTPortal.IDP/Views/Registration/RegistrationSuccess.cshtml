@@ -1,0 +1,73 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <noscript>Please enable java script in your browser.</noscript>
+    <link rel="icon" type="image/x-icon" href="~/assets/logo-single.svg">
+    <title>Registration</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"
+          type="text/css" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+    <!-- /global stylesheets -->
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/global_assets/js/main/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/global_assets/js/main/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+
+    <link rel="stylesheet" href="~/lib/sweetalert/dist/sweetalert.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assets/@name/appcss/RegistrationPage.css" asp-append-version="true" />
+</head>
+<body>
+    <section class="myform-area" style=" background-image: url('../assets/@name/NewLogo/JPG/background.jpg');">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-area login-form" style=" background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('../assets/@name/NewLogo/SVG/Group 11.svg');">
+                        <div class="form-content">
+                            <img alt="title-logo" class="icon-img" src="~/assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+                        </div>
+                        <div class="form-input" id="USER">
+                            <h1 style="color: #ACC43D">Welcome</h1>
+                            <form action="" method="POST" id="UserForm" novalidate>
+
+                                <div class="form-group">
+                                    <p class="welcome">  Your Device registration is successfully completed</p>
+                                </div>
+                                @*<div class="myform-button" style="padding-left: 25px">
+                                    <a href='@Url.Action("Index","Login")' class="myform-btn" type="submit" id="checkUser">
+                                        Login
+                                        <i class="icon-circle-right2 ml-2"></i>
+                                    </a>
+                                </div>*@
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="row footer">
+                        <img alt="app-footer-logo" src="~/assets/@name/NewLogo/SVG/NitaLogo.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row Pagefooter">
+            <img alt="footer-logo" src="~/assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,981 @@
+﻿@model DTPortal.IDP.ViewModel.Login.LoginViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+<style>
+
+    body {
+        overflow: auto;
+    }
+
+    .hide {
+        display: none
+    }
+
+    .show {
+        display: block
+    }
+    /*swal css*/
+
+    .sweet-alert {
+        border-radius: 20px !important;
+        min-width: 400px !important;
+        max-width: 478px !important;
+    }
+
+    swal-title {
+        margin: 0px;
+        font-size: 16px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+        margin-bottom: 28px;
+    }
+
+    .swal-text {
+        background-color: #FEFAE3;
+        padding: 17px;
+        border: 1px solid #F0E1A1;
+        display: block;
+        margin: 22px;
+        text-align: center;
+        color: #61534e;
+    }
+
+    .sweet-alert button.confirm {
+        background-color: #ACC43D !important;
+        color: black !important;
+    }
+
+    .sweet-alert button.cancel {
+        background-color: #cccbce !important;
+        color: black !important;
+    }
+
+    .sweet-alert button.confirm:hover {
+        background-color: #ACC43D !important;
+        color: black;
+    }
+
+    .sweet-alert button.cancel:hover {
+        background-color: #cccbce !important;
+        color: black;
+    }
+
+    .sweet-alert h2 {
+        color: #413737 !important;
+        margin: 15px 0 !important;
+    }
+
+    .sweet-alert .sa-icon {
+        margin: 0px auto !important;
+    }
+    /*.sweet-alert .sa-icon {
+        width: 45px !important;
+        height: 45px !important;
+    }*/
+
+    /*error icon*/
+    /*.sweet-alert .sa-icon.sa-error .sa-line.sa-left {
+            left: 8px !important;
+        }
+
+        .sweet-alert .sa-icon.sa-error .sa-line.sa-right {
+            right: 8px !important;
+        }
+
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            width: 30px !important;
+            top: 20px !important;
+        }*/
+    /*error icon end*/
+
+    /*info icon*/
+    /*.sweet-alert .sa-icon.sa-info {
+            border-color: #53bce6b0 !important;
+        }
+
+            .sweet-alert .sa-icon.sa-info::before {
+                height: 20px !important;
+                bottom: 6px !important;
+                margin-left: -3px !important;
+                width: 7px !important;
+                background-color: #53bce6b0 !important;
+            }
+            .sweet-alert .sa-icon.sa-info::after {
+                top: 10px !important;
+                background-color: #C9DAE1;
+                background-color: #53bce6b0 !important;
+            }*/
+    /*info icon end */
+
+    /*.sweet-alert .sa-icon.sa-success .sa-line.sa-tip {
+            width: 17px !important;
+            left: 5px !important;
+            top: 25px !important;
+        }
+
+        .sweet-alert .sa-icon.sa-success .sa-line.sa-long {
+            width: 30px !important;
+            right: 2px !important;
+            top: 22px !important;
+        }*/
+
+    .sweet-alert p {
+        color: black !important;
+        font-size: 18px !important;
+        text-align: center;
+        font-weight: 500 !important;
+        font-family: auto !important;
+        line-height: unset !important;
+    }
+    /*swal end*/
+    .home {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        min-width: 120vh;
+        min-height: 75vh;
+        margin-top: -30px;
+        background-color: rgba(255, 255, 255, 1);
+        border: solid;
+        border-radius: 24px;
+        border-color: rgba(255, 222, 173, 0);
+        -webkit-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+        /*background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.6) 68%),url('assets/NewLogo/SVG/Group 11.svg'),linear-gradient(to left, rgba(255,255,255,0.6) 100%, rgba(255,25,255,1) 100%);*/
+        background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('assets/@name/NewLogo/SVG/Group 11.svg');
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-position-x: left;
+        background-position-y: bottom;
+    }
+
+    .Box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+    }
+
+    .footer {
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        bottom: 10px;
+        /* margin-top: 20px; */
+        /* margin-bottom: -20px;*/
+        font-size: 16px;
+        font-weight: 700;
+        font-family: Lato-Bold, Lato;
+        color: rgba(64, 64, 64, 1);
+    }
+
+    .Pagefooter {
+        position: absolute;
+        bottom: 15px;
+        right: 30px;
+    }
+
+
+    [class*=" icon-"],
+    [class^="icon-"] {
+        font-family: icomoon !important;
+        font-style: normal;
+        font-weight: 400;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        min-width: 1em;
+        display: inline-block;
+        text-align: center;
+        font-size: 1rem;
+        vertical-align: middle;
+        position: relative;
+        top: 1px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .HOME {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        /*background-image: url('assets/NewLogo/SVG/background.svg');*/
+        background-image: url('assets/@name/NewLogo/JPG/background.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(255, 255, 255, 1);
+        overflow: hidden;
+        --web-view-name: Home;
+        --web-view-id: Home;
+        --web-scale-on-resize: true;
+        --web-enable-deep-linking: true;
+    }
+
+    .signIn {
+        font-size: 6vh;
+        font-weight: 700;
+        font-family: MongolianBaiti, Mongolian Baiti;
+    }
+
+    .Welcome_Back {
+        width: 35vh;
+    }
+
+    #background {
+        opacity: 0.4;
+        position: absolute;
+        width: 1320px;
+        height: 680px;
+        overflow: visible;
+        --web-animation: fadein 0.3s ease-out;
+        --web-action-type: page;
+        --web-action-target: Web_1920___2.html;
+    }
+
+    input[type="text"] {
+        opacity: 0.9;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgb(191 208 31);
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        width: 100%;
+        height: 5vh;
+        font-size: 2.4vh;
+    }
+
+    input[type="password"] {
+        opacity: 0.9;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgb(191 208 31);
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        width: 100%;
+        height: 5vh;
+        font-size: 2.4vh;
+    }
+
+    #Your_Email_Address__ {
+        overflow: visible;
+        width: 198px;
+        white-space: nowrap;
+        text-align: left;
+        font-family: "Source Sans Pro", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 4vh;
+        color: rgba(37, 43, 54, 1);
+    }
+
+    .loginButton {
+        background-color: #ACC43D;
+        border: none;
+        border-radius: 9px;
+        color: white;
+        padding: 8px 14px;
+        margin-left: 13px;
+        outline: none !important;
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        /*height: 42px;*/
+        width: 100%;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-style: normal;
+        font-weight: 500;
+        /*font-size: 18px;*/
+        font-size: 3vh;
+        box-sizing: border-box;
+        box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 30%);
+    }
+
+
+    .icon-logo {
+        margin: 20px 5px 0px 20px;
+        /*width: 185px;
+        height: 50px;*/
+        width: 20vh;
+        outline: none;
+        position: absolute;
+        top: -15px;
+        z-index: 1;
+    }
+
+    .user-img {
+        /* width: 18vh;*/
+        width: 25vh;
+    }
+
+    .icon-img {
+        margin: 0px 10px 10px 10px;
+        /*width: 250px;*/
+        width: 40vh;
+        outline: none;
+    }
+    /*browser error css start*/
+
+    .danger {
+        text-align: left;
+        color: red;
+        padding: 10px 0px;
+        margin: 0px;
+        width: 280px;
+        font-family: Century Gothic;
+        font-style: normal;
+        font-size: 15px;
+    }
+
+    .info {
+        text-align: left;
+        color: #1372aa;
+        padding: 10px 0px;
+        margin: 0px;
+        width: 280px;
+        font-family: Century Gothic;
+        font-style: normal;
+        font-size: 15px;
+    }
+
+    /*browser error css end*/
+    /*loding spinner css start*/
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    #overlay1 {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px #ddd solid;
+        border-top: 4px #2e93e6 solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
+
+    .spinner1 {
+        width: 40px;
+        height: 40px;
+        border: 4px #ddd solid;
+        border-top: 4px #2e93e6 solid;
+        border-radius: 50%;
+        animation: src 0.8s infinite linear;
+    }
+
+    .NotificationCode {
+        font-weight: 500;
+        /* background-color: #9ec510d4; */
+        font-size: 30px;
+        /* padding: 5px 11px; */
+        /* position: absolute; */
+        color: white;
+        /* border-radius: 10px; */
+        /* box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 30%);*/
+    }
+
+    #timerDiv {
+        justify-content: center;
+        position: absolute;
+        display: flex;
+        top: -20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.2vh;
+        font-weight: 500;
+        width: 33vh
+    }
+
+    #timer {
+        color: #8ab20a;
+        padding: 0px 5px;
+        font-size: 2.4vh;
+    }
+
+    .info-description {
+        font-weight: bold;
+        font-size: 20px;
+        width: 100%;
+        align-self: center;
+    }
+
+    .info-title {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .info-description img {
+        height: 25px;
+        width: 50px;
+        padding-bottom: 2px;
+    }
+
+    .info-details {
+        padding: 5px;
+        margin: 10px 5px;
+        width: 100%;
+        /* text-align: center;*/
+        display: contents;
+    }
+
+    .vl {
+        border-left: 3px solid black;
+        height: 22px;
+        margin-top: 2px;
+    }
+
+    .info-details pre {
+        font-family: 'Source Sans Pro', sans-serif;
+        border: none;
+        padding: 0px;
+        white-space: inherit;
+        font-size: .85rem;
+        padding-left: 20px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 510px), only screen and (max-device-width: 510px) {
+        /*add you css styling for small screen here*/
+        body {
+            overflow: scroll;
+        }
+
+        .vl {
+            border-left: 3px solid black;
+            height: 17px;
+            margin-top: 2px;
+        }
+
+        .swal-text {
+            background-color: #FEFAE3;
+            padding: 17px;
+            border: 1px solid #F0E1A1;
+            display: block;
+            margin: 22px;
+            text-align: center;
+            color: #61534e;
+        }
+
+        .home {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 65vh;
+            position: relative;
+            min-height: 47vh;
+            margin-top: -10vh;
+            margin-left: 40px;
+            padding-bottom: 20px;
+            background-color: rgba(255, 255, 255, 1);
+            background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.6) 68%),url('assets/@name/NewLogo/PNG/Group 11.png'),linear-gradient(to left, rgba(255,255,255,0.6) 100%, rgba(255,25,255,1) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            border: solid;
+            border-radius: 24px;
+            border-color: rgba(255, 222, 173, 0);
+            -webkit-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .Box {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer {
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: Lato-Bold, Lato;
+            color: rgba(64, 64, 64, 1);
+        }
+
+        [class*=" icon-"],
+        [class^="icon-"] {
+            font-family: icomoon !important;
+            font-style: normal;
+            font-weight: 400;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            min-width: 1em;
+            display: inline-block;
+            text-align: center;
+            font-size: 1rem;
+            vertical-align: middle;
+            position: relative;
+            top: 1px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .HOME {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /*background-image: url('assets/NewLogo/PNG/background.png');*/
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-color: rgba(255, 255, 255, 1);
+            overflow: auto;
+            --web-view-name: Home;
+            --web-view-id: Home;
+            --web-scale-on-resize: true;
+            --web-enable-deep-linking: true;
+        }
+
+
+        .Welcome_Back {
+            width: 35vh;
+        }
+
+        #background {
+            opacity: 0.4;
+            position: absolute;
+            width: 1320px;
+            height: 680px;
+            overflow: visible;
+            --web-animation: fadein 0.3s ease-out;
+            --web-action-type: page;
+            --web-action-target: Web_1920___2.html;
+        }
+
+        input[type="text"] {
+            opacity: 0.9;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgb(191 208 31);
+            transform: matrix(1, 0, 0, 1, 0, 0);
+            width: 140px;
+        }
+
+        input[type="password"] {
+            opacity: 0.9;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgb(191 208 31);
+            transform: matrix(1, 0, 0, 1, 0, 0);
+            width: 140px;
+        }
+
+
+        .loginButton {
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 7px;
+            outline: none !important;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            height: auto;
+            width: 100%;
+            margin: 0;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            box-sizing: border-box;
+            background-color: #8ab20a;
+            box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 30%);
+        }
+
+
+        .icon-logo {
+            margin: 10px 5px 10px 10px;
+            width: 140px;
+            height: 38px;
+            outline: none;
+            position: absolute;
+            top: -15px;
+            z-index: 1;
+        }
+
+        .user-img {
+            width: 18vh;
+        }
+
+
+        .icon-img {
+            margin: 10px 5px 40px 10px;
+            height: 124px;
+            outline: none;
+        }
+        /*browser error css start*/
+        .danger {
+            text-align: left;
+            color: red;
+            padding: 10px 0px;
+            margin: 0px;
+            width: 180px;
+            font-family: Century Gothic;
+            font-style: normal;
+            font-size: 15px;
+        }
+
+        .info {
+            text-align: left;
+            color: #1372aa;
+            padding: 10px 0px;
+            margin: 0px;
+            width: 180px;
+            font-family: Century Gothic;
+            font-style: normal;
+            font-size: 15px;
+        }
+
+
+        .NotificationCode {
+            font-weight: bold;
+            background-color: #9ec510d4;
+            font-size: 25px;
+            padding: 8px 15px;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 30%);
+        }
+
+        .info-description {
+            font-weight: bold;
+            font-size: 3vw;
+            width: 100%;
+            /* padding-left: 20px; */
+            align-self: center;
+        }
+
+        .info-title {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .info-description img {
+            height: 25px;
+            width: 50px;
+            padding-bottom: 2px;
+        }
+
+        .info-details {
+            padding: 5px;
+            margin: 10px 5px;
+            width: 100%;
+            text-align: center;
+            display: contents;
+        }
+
+            .info-details pre {
+                font-family: 'Source Sans Pro', sans-serif;
+                border: none;
+                padding: 0px;
+                white-space: pre-line;
+                font-size: 2.4vw;
+                padding-left: 45px;
+            }
+    }
+
+
+
+
+
+    @@keyframes sp-anime {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes src {
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+        from {
+            transform: scale(1);
+            border-top: 4px #2e93e6 solid;
+            transition: all 0.3s ease-in-out;
+        }
+
+        to {
+            transform: scale(1.1);
+            border-top: 4px red solid;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+
+    /*loding spinner css end*/
+    /* You can add global styles to this file, and also import other style files */
+</style>
+
+<link rel="stylesheet" href="assets/@name/appcss/Login1.css">
+<div id="overlay">
+    <div class="cv-spinner">
+        <span class="spinner">
+
+        </span>
+    </div>
+</div>
+<div id="overlay1">
+
+</div>
+<div class="container-fluid" style="padding: 0px">
+    <div class="HOME" id="USER" style=" background-image: url('assets/@name/NewLogo/JPG/background.jpg');">
+        <form action="" method="POST" id="UserForm" novalidate>
+            <div class="home" style=" background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('assets/@name/NewLogo/SVG/Group 11.svg');">
+                <div class="row Box">
+                    <div class="col-6 imgDiv">
+                        <img alt="Title Logo" class="icon-img" src="assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+
+                    </div>
+                    <div class="col-6 formDiv">
+                        <div class="signIn">
+                            Sign in
+                        </div>
+                        <div>
+                            <p id="USERerror" class="danger" @*style="display: block;"*@>
+
+                                @if (Model.error != null)
+                                {
+                                    @Model.error
+                                }
+                            </p>
+                        </div>
+                        <div class="inputDiv">
+
+                            <br />
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Mobile Number / Email" required />
+                            <br />
+                        </div>
+
+                        <div class="ButtonDiv">
+                            <button class="loginButton" type="button" id="checkUser">
+                                Next
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer">
+
+                    <img alt="Footer Logo" src="assets/@name/NewLogo/SVG/NitaLogo.svg" />
+
+                </div>
+            </div>
+        </form>
+        <div class="row Pagefooter">
+            <img alt="Footer DT logo" src="assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </div>
+
+    <!--  paswword div-->
+    <div class="HOME" id="PASSWORD" style="display:none;background-image: url('assets/@name/NewLogo/JPG/background.jpg');">
+        <form action="" method="POST" id="PASSWORDForm" novalidate>
+            <div class="home" style=" background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('assets/@name/NewLogo/SVG/Group 11.svg');">
+                <div class="row Box">
+                    <div class="col-6 imgDiv">
+
+                        <img alt="App-title Logo" class="icon-img" src="assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+                    </div>
+                    <div class="col-6 formDiv">
+                        <div class="signIn">
+                            Sign in
+                        </div>
+                        <div>
+                            <p id="PASSWORDerror" class="info" style="visibility: hidden;">
+
+                            </p>
+                        </div>
+                        <div class="inputDiv">
+
+                            <input type="text" class="form-control" id="PASSWORDuserName" name="username" readonly />
+                            <input id="PASSWORDauthScheme" name="authScheme" type="hidden" value="PASSWORD">
+
+                        </div>
+                        <div class="inputPWDDiv">
+
+                            <input type="password" class="form-control" id="password" name="password"
+                                   placeholder="Password" required />
+
+                        </div>
+                        <div class="ButtonDiv">
+                            <button class="loginButton" type="button" id="checkPassword">
+                                Submit
+                            </button>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer">
+
+                    <img alt="Footer Nita Logo" src="assets/NewLogo/SVG/NitaLogo.svg" />
+
+                </div>
+            </div>
+        </form>
+        <div class="row Pagefooter">
+            <img alt="Footer Dt Logo" src="assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </div>
+    <!--password div end-->
+    <!--PUSH_NOTIFICATIONF div start-->
+    <div class="HOME" id="PUSH_NOTIFICATION" style="display: none;background-image: url('assets/@name/NewLogo/JPG/background.jpg');">
+        <form action="" method="POST" id="PUSH_NOTIFICATIONForm" novalidate>
+            <div class="home" style=" background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('assets/@name/NewLogo/SVG/Group 11.svg');">
+                <div class="row Box">
+                    <div class="col-6 imgDiv">
+
+                        <img alt="App-Logo" class="icon-img" src="assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+                    </div>
+                    <div class="col-6 formDiv">
+                        <div class="signIn">
+                            Sign in
+                        </div>
+                        <div>
+                            <p id="PUSH_NOTIFICATIONerror" class="info" style="visibility: hidden;">
+
+                            </p>
+                        </div>
+                        <div class="inputDiv">
+
+                            <input type="text" class="form-control" id="PUSH_NOTIFICATIONuserName" name="username" readonly />
+
+                        </div>
+                        <div class="pushNotificationDiv">
+
+                            <div id="timerDiv">Resend code in <span id="timer">00</span> sec</div>
+                            <span class="NotificationCode" id="PushNotificationCode"></span>
+
+                        </div>
+
+                        <div class="info-details">
+
+                            <span class="info-title">Check&nbsp; <img alt="Info Logo" class="info-logo-img" src="assets/@name/NewLogo/SVG/title.svg" /> Mobile Application</span>
+                            <span class="infoMSG">
+                                Select the above displayed number to sign in
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer">
+
+                    <img alt="Footer-Logo" src="assets/@name/NewLogo/SVG/NitaLogo.svg" />
+
+                </div>
+            </div>
+        </form>
+        <div class="row Pagefooter">
+            <img alt="Page-Footer-Logo" src="assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </div>
+    <!--PUSH_NOTIFICATIONF div end-->
+    <!-- dummy FIDO2 div start-->
+    <div class="HOME" id="FIDO2" style="display: none;background-image: url('assets/@name/NewLogo/JPG/background.jpg');">
+        <form action="" method="POST" id="FIDO2Form" novalidate>
+            <div class="home" style=" background-image: linear-gradient(to left bottom, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 30%),url('assets/@name/NewLogo/SVG/Group 11.svg');">
+                <div class="row Box">
+                    <div class="col-6 imgDiv">
+
+                        <img alt="new-title-logo" class="icon-img" src="assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+                    </div>
+                    <div class="col-6 formDiv">
+                        <div class="signIn" style="margin-bottom: 30px;">
+                            Sign in
+                        </div>
+                        <div>
+                            <p id="FIDO2error" class="danger hide" @*style="display: block;"*@>
+
+
+                            </p>
+                        </div>
+                        <div class="inputDiv">
+
+                            <input type="text" class="form-control" id="FIDO2userName" name="userName" readonly />
+                            <input type="hidden" class="form-control" id="FIDOOption" name="FIDOOption" />
+
+                        </div>
+                        <div style="display:inline-flex; text-align: center; padding-right: 20px;margin: 30px 30px 20px 0px">
+                            <button class="loginButton" type="submit" id="registerBtn">
+                                Submit
+                            </button>
+                            <button class="loginButton" type="button" id="cancle"
+                                    style="background-color: #a29595;margin-left: 1vh;display: none">
+                                cancle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer">
+
+                    <img alt="footer-nita-logo" src="assets/@name/NewLogo/SVG/NitaLogo.svg" />
+
+                </div>
+            </div>
+        </form>
+        <div class="row Pagefooter">
+            <img alt="footer-dt-logo" src="assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </div>
+    <!--dummy FIDO2 div end-->
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+         var method = "@Model.Method";
+         var target = "@Model.Target";
+    </script>
+    <script src="~/lib/loginJsCss/helpers.js"></script>
+    <script src="~/lib/loginJsCss/passwordless.login.js"></script>
+    <script src="~/lib/loginJsCss/login.js"></script>
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,408 @@
+﻿@model DTPortal.IDP.ViewModel.Oauth2.ConsentViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    ViewData["Title"] = "User Consent";
+    var name = Configuration["ProjectName"];
+}
+<link rel="stylesheet" href="~/assets/@name/appcss/ConsentPage.css" asp-append-version="true" />
+<style>
+
+    .profile-card {
+        border: 1px solid #E5E7EB;
+        border-radius: 12px;
+        background: #FFFFFF;
+        transition: box-shadow 0.2s ease;
+    }
+    .accordion.active {
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+
+    /* Header */
+    .profile-card-header {
+        font-size: 15px;
+        font-weight: 500;
+        color: #111827;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .profile-card-header {
+        padding: 12px 16px;
+    }
+
+    .accordion.active .profile-card-body {
+        padding: 12px 20px 14px;
+    }
+
+
+    /* Arrow */
+    .accordion-arrow {
+        margin-left: auto;
+        font-size: 16px;
+        color: #6B7280;
+        transition: transform 0.3s ease;
+    }
+
+    .profile-card-divider {
+        height: 1px;
+        background-color: #E5E7EB;
+        width: 100%;
+        display: none;
+    }
+
+    /* Show only when open */
+    .accordion.active .profile-card-divider {
+        display: block;
+    }
+
+
+
+    /* Body */
+    .profile-card-body {
+        background: #fff;
+        padding: 0 24px;
+    }
+    @@media screen and (max-width:575px){
+        .profile-card-body{
+            padding:0 16px
+        }
+    }
+
+    .accordion.active .profile-card-body {
+        padding: 14px 24px 16px;
+    }
+
+
+    /* Accordion animation */
+    .accordion-body {
+        max-height: 0;
+        overflow: auto;
+        transition: max-height 0.35s ease;
+    }
+
+    .accordion.active .accordion-body {
+        max-height: 400px;
+    }
+
+    .accordion.active .accordion-arrow {
+        transform: rotate(180deg);
+    }
+
+    .accordion-arrow {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid #000;
+        border-bottom: 2px solid #000;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+    }
+
+    /* when accordion is open */
+    .accordion.active .accordion-arrow {
+        transform: rotate(-135deg); /* up arrow */
+    }
+
+
+
+
+    .right-panel {
+        width: 55%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        overflow: hidden;
+    }
+    .dialog-right{
+        height:100%;
+        padding:20px 0px;
+    }
+    @@media screen and (max-width:575px){
+        .dialog-right{
+            padding:0px;
+        }
+    }
+    .scrollable-div {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+        margin-bottom:16px;
+    }
+
+    @@media screen and (max-width:575px) {
+        .scrollable-div{
+            margin-bottom:0px;
+        }
+    }
+    .profile-card-body.no-scroll {
+        max-height: 209px;
+        overflow-y: auto; 
+        padding-right: 0;
+    }
+
+    .scrollable-div.no-scrollable {
+        overflow-y: hidden;
+    }
+
+    label {
+        margin-bottom: 0rem !important;
+    }
+
+</style>
+
+@{
+    bool singleScope = Model.scopesList?.Count == 1;
+}
+
+<div class="dialog-overlay">
+    <div class="dialog-card">
+
+        <!-- LEFT PANEL -->
+        <div class="dialog-left">
+            <div>
+                <img alt="Uaeid Logo" src="@Url.Content("~/assets/UAEID/uaeid-mini-logo.png")"
+                     class="uaeid-logo  d-flex justify-content-center justify-content-sm-start" />
+
+                <h2 class="dialog-left-title">
+                    Hi <span class="username">@Model.username</span> !
+                </h2>
+
+                <h2 class="dialog-left-sub-title">
+                    @($"{Model.clientDetails.Application_Name} Wants To Access Your Account")
+                </h2>
+
+                <div class="user-info-container d-none d-sm-block">
+                    <div class="user-card">
+                        <!-- Avatar -->
+                        <div class="user-avatar d-flex align-items-center">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="12" fill="#E5E7EB" />
+                                <circle cx="12" cy="9" r="3" fill="#6B7280" />
+                                <path d="M6.5 18C7.8 15.8 9.9 15 12 15
+                 C14.1 15 16.2 15.8 17.5 18"
+                                      fill="#6B7280" />
+                            </svg>
+                        </div>
+
+
+                        <!-- Email (dynamic) -->
+                        <div class="user-email-box" id="userEmail">
+                            @Model.usermail
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="gov-text d-none d-sm-flex align-items-center mb-0">
+                <svg class="me-1" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L4 5V11C4 16.25 7.33 20.74 12 22C16.67 20.74 20 16.25 20 11V5L12 2Z"
+                          fill="#1FAF38" />
+                    <path d="M10.5 13.5L8.5 11.5L7.5 12.5L10.5 15.5L16.5 9.5L15.5 8.5L10.5 13.5Z"
+                          fill="white" />
+                </svg>
+                <span class="pl-1">
+                    Official Secure Government Portal
+                </span>
+            </p>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="d-flex justify-content-center align-items-center dialog-right-container">
+            <div class="dialog-right">
+
+                <!-- SHARE INFO -->
+                <div class="consent-section">
+                    <p class="consent-title">Approving will share:</p>
+                </div>
+                <div class="scrollable-div @(singleScope ? "no-scrollable" : "")">
+                    <div>
+                        @foreach (var scope in Model.scopesList)
+                        {
+                            <div class="profile-card @(singleScope ? "" : "accordion")">
+
+                                <!-- Header -->
+                                <div class="profile-card-header @(singleScope ? "" : "accordion-header")">
+                                    <span>@scope.displayName</span>
+
+                                    @if (!singleScope && scope?.attributes != null && scope.attributes.Any())
+                                    {
+                                        <span class="accordion-arrow"></span>
+                                    }
+                                </div>
+
+                                @if (singleScope)
+                                {
+                                    <div class="profile-card-divider d-flex"></div>
+                                }
+                                <!-- Divider -->
+                                <div class="profile-card-divider"></div>
+
+                                <!-- Body -->
+                                @if (scope?.attributes != null && scope.attributes.Any())
+                                {
+                                    <div class="profile-card-body @(singleScope ? "no-scroll" : "accordion-body")">
+                                        @foreach (var attribute1 in scope.attributes)
+                                        {
+                                            <div class="profile-attr d-flex align-items-center gap-2">
+
+                                                <input type="checkbox"
+                                                       name="SelectedAttributes"
+                                                       value="@scope.name|@attribute1.name"
+                                                       id="@(scope.name)_@(attribute1.name)"
+                                                       checked="checked"
+                                                       @(attribute1.mandatory ? "disabled=\"disabled\"" : "") />
+
+                                                @if (attribute1.mandatory)
+                                                {
+                                                    <input type="hidden" name="SelectedAttributes" value="@scope.name|@attribute1.name" />
+                                                }
+
+                                                <label for="@(scope.name)_@(attribute1.name)" style="margin-bottom:0px !important">
+                                                    @attribute1.displayName
+
+                                                    @if (attribute1.mandatory)
+                                                    {
+                                                        <span class="text-danger">*</span>
+                                                    }
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <!-- INFO BOX -->
+                <div class="consent-info-box">
+                    <div class="info-item">
+                        <svg width="16" height="15" viewBox="0 0 12 12.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0.5L11 2.3V6.7C11 9.2 8.9 11.3 6 12.5C3.1 11.3 1 9.2 1 6.7V2.3L6 0.5Z"
+                                  fill="#0D4B97" />
+                        </svg>
+
+                        <span>This consent will remain valid for all future logins</span>
+                    </div>
+
+                    <div class="info-item">
+                        <svg width="20"
+                             height="20"
+                             viewBox="0 0 24 24"
+                             fill="#2F609C"
+                             xmlns="http://www.w3.org/2000/svg"
+                             style="vertical-align: middle;">
+                            <path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V7Z" />
+                        </svg>
+                        <span>Your information is shared securely and safely</span>
+                    </div>
+                </div>
+
+                <div class="consentDecision">
+                    <form id="consent" method="post" action="Allow">
+                        <div class="consent-actions">
+                            <input type="hidden" asp-for="clientDetails.client_id" />
+                            <input type="hidden" asp-for="clientDetails.redirect_uri" />
+                            <input type="hidden" asp-for="clientDetails.response_type" />
+                            <input type="hidden" asp-for="clientDetails.scope" />
+                            <input type="hidden" asp-for="clientDetails.state" />
+                            <input type="hidden" asp-for="clientDetails.nonce" />
+                            <input type="hidden" asp-for="suid" />
+                            <input type="hidden" asp-for="SelectedAttributesJson" />
+                            @for (var i = 0; i < Model.scopes.Count; i++)
+                            {
+                                <input type="hidden" name="scopes" value="@Model.scopes[i]" />
+                            }
+                            <input type="hidden" asp-for="username" />
+
+                            <button class="deny" asp-action="Deny">Deny</button>
+                            <button class="allow" asp-action="Allow">Approve</button>
+
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex d-sm-none pt-3 pb-2">
+            <p class="gov-text d-flex justify-content-center align-items-center w-100 mb-0">
+                <svg class="me-1" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L4 5V11C4 16.25 7.33 20.74 12 22C16.67 20.74 20 16.25 20 11V5L12 2Z"
+                          fill="#1FAF38" />
+                    <path d="M10.5 13.5L8.5 11.5L7.5 12.5L10.5 15.5L16.5 9.5L15.5 8.5L10.5 13.5Z"
+                          fill="white" />
+                </svg>
+                <span class="pl-1">
+                    Official Secure Government Portal
+                </span>
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.querySelectorAll(".accordion-header").forEach(header => {
+            header.addEventListener("click", function () {
+                const accordion = this.closest(".accordion");
+                accordion.classList.toggle("active");
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('consent').addEventListener('submit', function(e) {
+            if (e.submitter && e.submitter.classList.contains('deny')) {
+                return; // Let deny action proceed normally
+            }
+
+            e.preventDefault();
+
+            // Get all selected checkboxes
+            const selectedCheckboxes = document.querySelectorAll('input[name="SelectedAttributes"]:checked:not([type="hidden"])');
+            const mandatoryCheckboxes = document.querySelectorAll('input[name="SelectedAttributes"][type="hidden"]');
+
+            // Build the selected attributes structure
+            const scopesMap = {};
+
+            // Add selected attributes
+            selectedCheckboxes.forEach(checkbox => {
+                const [scopeName, attrName] = checkbox.value.split('|');
+                if (!scopesMap[scopeName]) {
+                    scopesMap[scopeName] = [];
+                }
+                scopesMap[scopeName].push(attrName);
+            });
+
+            // Add mandatory attributes
+            mandatoryCheckboxes.forEach(checkbox => {
+                const [scopeName, attrName] = checkbox.value.split('|');
+                if (!scopesMap[scopeName]) {
+                    scopesMap[scopeName] = [];
+                }
+                if (!scopesMap[scopeName].includes(attrName)) {
+                    scopesMap[scopeName].push(attrName);
+                }
+            });
+
+            var scopesString = JSON.stringify(scopesMap);
+
+            $("#SelectedAttributesJson").val(scopesString);
+
+            this.submit();
+        });
+    </script>
+}

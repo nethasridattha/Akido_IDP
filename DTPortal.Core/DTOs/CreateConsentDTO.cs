@@ -1,0 +1,25 @@
+﻿namespace DTPortal.Core.DTOs
+{
+    public class CreateConsentDTO
+    {
+        public int ConsentId { get; set; }
+
+        public string Consent { get; set; }
+
+        public string PrivacyConsent { get; set; }
+
+        public string ConsentType { get; set; }
+
+        public bool ConsentRequired { get; set; }
+
+        public string CreatedOn { get; set; }
+
+        public string UpdatedOn { get; set; }
+
+        public string Status { get; set; }
+
+        public string OptionalTermsAndConditions { get; set; }
+
+        public string OptionalDataAndPrivacy { get; set; }
+    }
+}

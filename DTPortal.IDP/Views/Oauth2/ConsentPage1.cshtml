@@ -1,0 +1,109 @@
+﻿@model DTPortal.IDP.ViewModel.Oauth2.ConsentViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+<link rel="stylesheet" href="/assets/@name/appcss/ConsentPage.css" />
+
+<div class="container-fluid" style="padding: 0px">
+
+    <div id="Home" style=" background-image: url('/assets/@name/NewLogo/PNG/background.png');">
+
+        <div class="home" style="background-image: url('/assets/@name/NewLogo/PNG/HomeBackGround.png');">
+            <div class="row ConsentHead" style=" background-image: url('/assets/@name/NewLogo/PNG/ConsentHeadBack.png'),linear-gradient(to left, rgba(178,200,35,0.6) 100%, rgba(178,200,35,1) 100%);">
+                <img alt="Consent Logo" style="margin-bottom: 5px;width: 20vh;" src="/assets/@name/NewLogo/PNG/ConsentLogo.png">
+                <div class="msg">
+                    <p style="margin:0px">
+                        @Model.clientDetails.Application_Name Wants To Access<br> Your
+                        Account
+                    </p>
+                </div>
+            </div>
+            <div class="row ConsentUser">
+                <img alt="User Logo" style="width: 8vh;" src="/assets/@name/NewLogo/PNG/User.png">
+                <div class="user">
+                    <span>@Model.username</span>
+                </div>
+                <div class="consentMsg">
+                    <span style="margin-bottom: 5px;">This will allow @Model.clientDetails.Application_Name To:</span>
+                </div>
+            </div>
+
+            <div class="row scopeList">
+                @foreach (var e in Model.scopesList)
+                {
+                    <div class="scope">
+                        <div class="dropdown dropleft">
+                            <img alt="User icon" class="userIcon" src="/assets/@name/NewLogo/PNG/UserMini.png">&nbsp;&nbsp;
+                            @e.description
+                           
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="row policy">
+                By clicking Allow, you allow this app and idp provider to use your
+                information in accordance with their respective terms of service and
+                privacy policies. You can change this and other Account Permissions
+                at any time
+
+            </div>
+            <div class="row consentDecision">
+                <form id="consent" method="post">
+                    <div class=option>
+                        <input type="hidden" asp-for="clientDetails.client_id" />
+                        <input type="hidden" asp-for="clientDetails.redirect_uri" />
+                        <input type="hidden" asp-for="clientDetails.response_type" />
+                        <input type="hidden" asp-for="clientDetails.scope" />
+                        <input type="hidden" asp-for="clientDetails.state" />
+                        <input type="hidden" asp-for="clientDetails.nonce" />
+                        <input type="hidden" asp-for="suid" />
+                        @for (var i = 0; i < Model.scopes.Count; i++)
+                        {
+                            <input type="hidden" name="scopes" value="@Model.scopes[i]" />
+                        }
+                        <input type="hidden" asp-for="username" />
+                        <button class="deny" asp-action="Deny">Deny</button>
+                        <button class="allow" asp-action="Allow">Allow</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+
+        //const Deny = document.getElementById("Deny");
+        //Deny.addEventListener("click", deny);
+
+        //const Allow = document.getElementById("Allow");
+        //Allow.addEventListener("click", allow);
+
+        //function allow() {
+        //    var form = $("#consent");
+        //    form.attr("action", "/authorization/Allow");
+        //    form.submit();
+        //}
+
+        //function deny() {
+        //    var form = $("#consent");
+        //    form.attr("action", "/authorization/Deny");
+        //    form.submit();
+        //}
+
+        function showDiv(id) {
+            $("#" + id).toggle();
+        }
+
+    </script>
+}

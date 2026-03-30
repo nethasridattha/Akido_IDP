@@ -1,0 +1,107 @@
+﻿@model DTPortal.IDP.ViewModel.Saml2.ConsentViewModel
+
+<link rel="stylesheet" href="~/assets/appcss/ConsentPage.css" asp-append-version="true" />
+@{
+    ViewData["Title"] = "User Consent";
+}
+<section class="myform-area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-area">
+                    <div class="ConsentHead">
+                        <img alt="Consent Logo" src="~/assets/NewLogo/PNG/ConsentLogo.png">
+                        <div class="msg">
+                            <p style="margin:0px">
+                                @Model.Application_Name   Wants To Access<br> Your
+                                Account
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ConsentUser">
+                        <img alt="User" src="~/assets/NewLogo/PNG/User.png">
+                        <div class="user">
+                            <span> @Model.username</span>
+                        </div>
+                        <div class="consentMsg">
+                            <span style="margin-bottom: 5px;">This will allow @Model.Application_Name To:</span>
+                        </div>
+                    </div>
+
+                    <div class="row scopeList">
+                        @foreach (var e in Model.scopesList)
+                        {
+                            <div class="scope">
+                                <div class="dropdown dropleft">
+                                    <img alt="User Icon" class="userIcon" src="~/assets/NewLogo/PNG/UserMini.png">&nbsp;&nbsp;
+                                    Access ypor mobile number
+                                    @e.description
+                                  
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="policy">
+                        By clicking Allow, you allow this app and idp provider to use your
+                        information in accordance with their respective terms of service and
+                        privacy policies. You can change this and other Account Permissions
+                        at any time
+
+                    </div>
+                    <div class="consentDecision">
+                        <form id="consent" method="post">
+                            <div class=option>
+                                <input type="hidden" asp-for="client_ID" />
+                                <input type="hidden" asp-for="SAMLResponse" />
+                                <input type="hidden" asp-for="suid" />
+                                @for (var i = 0; i < Model.scopes.Count; i++)
+                                {
+                                    <input type="hidden" name="scopes" value="@Model.scopes[i]" />
+                                }
+                                <input type="hidden" asp-for="username" />
+                                <button class="deny" asp-action="Deny">Deny</button>
+                                <button class="allow" asp-action="Allow">Allow</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+
+        //const Deny = document.getElementById("Deny");
+        //Deny.addEventListener("click", deny);
+
+        //const Allow = document.getElementById("Allow");
+        //Allow.addEventListener("click", allow);
+
+        //function allow() {
+        //    var form = $("#consent");
+        //    form.attr("action", "/authorization/Allow");
+        //    form.submit();
+        //}
+
+        //function deny() {
+        //    var form = $("#consent");
+        //    form.attr("action", "/authorization/Deny");
+        //    form.submit();
+        //}
+
+        function showDiv(id) {
+            document.getElementById(id).toggle();
+        }
+
+    </script>
+}

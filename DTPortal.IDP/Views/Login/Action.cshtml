@@ -1,0 +1,66 @@
+﻿@model DTPortal.IDP.ViewModel.Saml2.Saml2Response
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <noscript>Please enable java script in your browser.</noscript>>
+    <link rel="icon" type="image/x-icon" href="~/assets/logo-single.svg">
+    <title>DTIDP</title>
+   <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  
+</head>
+
+<body>
+    <!--
+    actions.handlebars
+
+    This file provides a template for POST-binding actions.
+    In order to make it more flexible, there are serveral parameters you can set.
+
+    entityEndpoint: either service or identity provider
+    type: declares the type of actions (SAMLRequest/SAMLResponse)
+    value: value for action (value should be base64 encoded before subsitution)
+
+    -->
+    <form id="saml-form" method="post" action="@Model.entityEndpoint" autocomplete="off">
+        <input type="hidden" name="@Model.type" id="@Model.type" value="@Model.context" />
+        @if (!string.IsNullOrEmpty(Model.relayState))
+        {
+            <input type="hidden" name="RelayState" id="relayState" value="@Model.relayState" />
+        }
+    </form>
+    <script type="text/javascript">
+    function submit(){
+		var  ajaxSubmit ="@Model.ajaxSubmit";
+        if(ajaxSubmit=="true"){
+            var inputs = document.forms[0].getElementsByTagName("input");
+            var data = { ajaxForm: true };
+            for(var i=0,j=inputs.length;i<j;++i){
+               data[inputs[i].id] = inputs[i].value;
+            }
+            $.ajax({
+				type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: document.getElementById('saml-form').action,
+                success: function(daa) {
+                }
+            });
+        }else{
+            document.forms[0].submit();
+        }
+	}
+	submit();
+    </script>
+
+</body>
+
+</html>

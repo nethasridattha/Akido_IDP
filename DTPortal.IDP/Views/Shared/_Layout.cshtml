@@ -1,0 +1,105 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    @*<base href="#" target="_blank">*@
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <noscript>Please enable java script in your browser.</noscript>
+    <link rel="icon" type="image/x-icon" href="~/assets/@name/NewLogo/PNG/Mytrustfavicon.png">
+    <title>@ViewData["Title"] - IDP</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/sweetalert.css">
+    <link rel="stylesheet" href="~/assets/@name/css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+
+
+    <style>
+        #browserErrordiv {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .is-hide {
+            display: none;
+        }
+
+        .error1 {
+            display: inline-block;
+            width: 600px;
+            background-color: white;
+            padding: 15px;
+            height: fit-content;
+            margin: 10% auto;
+            border-radius: 5px;
+            border-width: medium;
+            box-shadow: 0 0 #28fac959;
+        }
+
+        #browserError {
+            white-space: pre-wrap;
+            text-align: left;
+            margin-left: 20px;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        #retry {
+            border: 1px solid #80cfed;
+            padding: 5px 10px 5px 10px;
+            display: flex;
+            border-radius: 5px;
+            font-size: 15px;
+            outline: none !important;
+            background-color: rgba(36, 96, 200, 1);
+            width: auto;
+            float: right;
+            height: 32px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="browserErrordiv" style="display: none;">
+        <div class="error1">
+            <p id="browserError">
+
+            </p>
+            <button id="retry" onclick="load()">TryAgain</button>
+        </div>
+    </div>
+    <div>
+        <partial name="_CookieConsentPartial" />
+        @RenderBody()
+    </div>
+
+    <script>
+        if (!navigator.cookieEnabled) {
+            document.querySelector(".backdrop").style.display = "none";
+            document.getElementById("browserErrordiv").style.display = "flex"
+            document.getElementById("browserError").innerHTML = "Your browser cookies option is disabled.\ Please enable cookies option \n Go browser setting -> Cookies and other site data -> Enable 'Allow all cookies'!";
+            //  return false;
+        }
+        function load() {
+            window.location.reload();
+        }
+    </script>
+    <!-- Core JS files -->
+
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sweetalert.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,337 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+
+body {
+    overflow: auto;
+    margin: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.625rem;
+    margin-left: -.625rem;
+}
+
+
+.myform-area {
+    overflow: auto;
+    padding: 60px 0;
+    background: #f4fffe;
+    position: absolute;
+    padding-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 80px;
+    background-image: url('../../assets/NewLogo/PNG/UaeBackground.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+
+
+    .myform-area .form-area {
+        position: relative;
+        text-align: center;
+        background: rgba(255, 255, 255, 1);
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 30%);
+        border: none;
+        border-color: rgba(255, 222, 173, 0);
+        border-radius: 24px;
+        /*background-image: url('../../assets/NewLogo/PNG/HomeBackGround.png');*/
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-position-x: left;
+        background-position-y: bottom;
+    }
+
+
+.ConsentHead {
+    background-color: #D7B76B;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    padding: 20px 15px;
+    background-image: linear-gradient(to left, #D7B76B 100%, #D7B76B 100%);
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
+    background-position: left;
+}
+
+    .ConsentHead img {
+        margin-bottom: 10px;
+        width: 130px;
+    }
+
+.msg {
+    white-space: nowrap;
+    font-family: "Source Sans Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: rgba(64, 64, 64, 1);
+}
+
+.ConsentUser {
+    justify-content: center;
+    padding: 10px 10px 0px 10px;
+}
+
+    .ConsentUser img {
+        width: 50px;
+    }
+
+.user {
+    white-space: nowrap;
+    font-family: "Source Sans Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.consentMsg {
+    white-space: nowrap;
+    font-family: "Source Sans Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.scopeList {
+    height: auto;
+    padding: 0px 70px;
+    margin: 0px;
+    justify-content: center;
+}
+
+
+.scope {
+    width: 80%;
+    text-align: left;
+    margin: 5px 2px 5px 2px;
+    padding: 10px 2px 10px 2px;
+    border: 2px solid #D7B76B;
+    border-radius: 11px;
+    font-size: 13px;
+}
+
+    .scope img.infoIcon {
+        color: #b4b1b1;
+        float: right;
+        width: 20px;
+        margin-right: 5px;
+        margin-top: -5px;
+    }
+
+        .scope img.infoIcon:hover {
+            color: #3b3939;
+        }
+
+    .scope img.userIcon {
+        color: #96d8f6;
+        float: left;
+        width: 20px;
+        margin-left: 5px;
+    }
+
+.scopeInfo {
+    background-color: #D7B76B;
+    max-width: 450px;
+    box-shadow: -12px 12px 6px 0px rgb(0 0 0 / 20%);
+    white-space: nowrap;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+    .scopeInfo i {
+        font-size: 10px;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+
+.policy {
+    white-space: pre-line;
+    font-family: "Source Sans Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.consentDecision {
+    margin-top: -20px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.xyz {
+    display: flex;
+    white-space: break-spaces;
+    padding: 10px;
+}
+
+.deny {
+    font-size: 20px;
+    border: 1px solid #ada9a9;
+    background-color: #ada9a9;
+    outline: none !important;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0px 10px 0px 0px;
+}
+
+    .deny:hover {
+        border: 1px solid #ada9a9;
+    }
+
+    .deny:active {
+        border: 1px solid #ada9a9;
+        background-color: #ada9a9;
+    }
+
+.allow {
+    font-size: 20px;
+    border: #D7B76B;
+    background-color: #D7B76B;
+    outline: none !important;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    margin: 0px 0px 0px 0px;
+}
+
+    .allow:hover {
+        border: 1px solid #D7B76B;
+    }
+
+    .allow:active {
+        border: 1px solid #D7B76B;
+        background-color: #D7B76B;
+    }
+
+.dropleft .dropdown-menu {
+    top: auto;
+    right: 20px;
+}
+
+@media only screen and (max-height: 500px) {
+    .myform-area {
+        height: auto;
+    }
+
+    .scopeInfo {
+        width: auto;
+    }
+
+        .scopeInfo h5 {
+            font-size: 10px;
+        }
+
+        .scopeInfo p {
+            font-size: 9px;
+        }
+
+    .myform-area .form-area .form-content img {
+        height: 75%;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /*add you css styling for small screen here*/
+    .myform-area {
+        background-repeat: round;
+    }
+
+        .myform-area .form-area {
+            height: auto;
+        }
+
+    .ConsentHead img {
+        width: 80px;
+    }
+
+    .msg {
+        font-size: 14px;
+    }
+
+    .ConsentUser img {
+        width: 30px;
+    }
+
+    .user {
+        font-size: 14px;
+    }
+
+    .consentMsg {
+        font-size: 11px;
+    }
+
+    .scopeList {
+        padding: 0px;
+    }
+
+
+    .scope {
+        font-size: 10px;
+    }
+
+        .scope img.infoIcon {
+            width: 13px;
+        }
+
+            .scope img.infoIcon:hover {
+                color: #3b3939;
+            }
+
+        .scope img.userIcon {
+            width: 13px;
+        }
+
+    .scopeInfo {
+        width: auto;
+    }
+
+        .scopeInfo h5 {
+            font-size: 10px;
+        }
+
+        .scopeInfo p {
+            font-size: 9px;
+        }
+
+        .scopeInfo i {
+            font-size: 10px;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+
+    .policy {
+        padding: 5px;
+        margin: 5px 5px;
+        font-size: 7px;
+    }
+
+    .consentDecision {
+        margin-top: -10px;
+    }
+
+    .deny {
+        font-size: 10px;
+    }
+
+    .allow {
+        font-size: 10px;
+    }
+}

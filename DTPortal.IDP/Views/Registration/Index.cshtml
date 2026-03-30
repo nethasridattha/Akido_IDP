@@ -1,0 +1,100 @@
+﻿@model DTPortal.IDP.ViewModel.Registration.RegistrationViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var name = Configuration["ProjectName"];
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <noscript>Please enable java script in your browser.</noscript>
+    <link rel="icon" type="image/x-icon" href="~/assets/logo-single.svg">
+    <title>Registration</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"
+          type="text/css" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link href="~/lib/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <!-- /global stylesheets -->
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/global_assets/js/main/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/global_assets/js/main/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/lib/sweetalert/dist/sweetalert.min.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/assets/appcss/RegistrationPage.css" asp-append-version="true">
+</head>
+<body>
+
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner">
+
+            </span>
+        </div>
+    </div>
+
+    <section class="myform-area" >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-area login-form">
+                        <div class="form-content">
+                            <img alt="Title Logo" class="icon-img" src="~/assets/@name/NewLogo/JPG/TitleAndLogo.jpg" />
+                        </div>
+                        <div class="form-input" id="Register">
+                            <h1>Activate Account!</h1>
+                            <form id="register-form" action="" method="POST" id="UserForm" novalidate>
+                                <div>
+                                    <p id="USERerror" class="danger hide" @*style="display: block;"*@>
+
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="FullName" readonly />
+                                    <input class="form-control" id="userName" name="userName" type="hidden" value="@Model.suid" />
+                                    <input type="hidden" asp-for="userDetails" />
+                                    <input type="hidden" asp-for="MailID_MobileNO" />
+                                </div>
+                                <div class="myform-button" id="registerBtnGroup">
+                                    <button class="myform-btn" type="submit" id="registerBtn">
+                                        Register Token
+                                        <i class="icon-circle-right2 ml-2"></i>
+                                    </button>
+                                    <button class="myform-btn" type="button" id="cancel"
+                                            style="display:none">
+                                        cancel
+                                        <i class="icon-circle-right2 ml-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="row footer">
+                        <img alt="App Footer Logo" src="~/assets/@name/NewLogo/SVG/NitaLogo.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row Pagefooter">
+            <img alt="Footer Logo" src="~/assets/@name/NewLogo/SVG/DtLogo.svg" />
+        </div>
+    </section>
+
+    <script>
+        var getCredentialOptionsUrl = '@Url.Action("CredentialOptions", "Registration")';
+        var SaveCredentialUrl = '@Url.Action("SaveCredentials", "Registration")';
+        var errorUrl = '@Url.Action("Error", "Registration")';
+         var successUrl =  '@Url.Action("RegistrationSuccess", "Registration")';
+    </script>
+    <script src="~/lib/PasswordLessRegistration/helpers.js" asp-append-version="true"></script>
+    <script src="~/lib/PasswordLessRegistration/passwordless.register.js" asp-append-version="true"></script>
+</body>
+</html>

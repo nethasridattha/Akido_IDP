@@ -1,0 +1,135 @@
+﻿@model DTPortal.IDP.ViewModel.Saml2.Saml2Response
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="~/assets/logo-single.svg">
+    <title>DTIDP</title>
+    <link href="global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/layout.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/components.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/colors.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .HOME {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 1);
+            overflow: hidden;
+            --web-view-name: Home;
+            --web-view-id: Home;
+            --web-scale-on-resize: true;
+            --web-enable-deep-linking: true;
+        }
+
+        .home {
+            display: flex;
+            align-items: center;
+            min-width: 450px;
+            min-height: 300px;
+            margin-top: -65px;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: solid;
+            border-radius: 24px;
+            border-color: rgba(255, 222, 173, 0);
+            -webkit-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .msg {
+            padding: 5px;
+            white-space: nowrap;
+            text-align: left;
+            width: 100%;
+            padding-left: 40px;
+            font-family: "Source Sans Pro", sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            color: rgba(64, 64, 64, 1);
+        }
+
+        .user {
+            padding: 5px;
+            white-space: nowrap;
+            text-align: left;
+            width: 100%;
+            padding-left: 40px;
+            font-family: "Source Sans Pro", sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            color: rgba(64, 64, 64, 1);
+        }
+
+        .error {
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            font-family: Century Gothic;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 25px;
+            color: #007e88;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+    actions.handlebars
+
+    This file provides a template for POST-binding actions.
+    In order to make it more flexible, there are serveral parameters you can set.
+
+    entityEndpoint: either service or identity provider
+    type: declares the type of actions (SAMLRequest/SAMLResponse)
+    value: value for action (value should be base64 encoded before subsitution)
+
+    -->
+    <form id="saml-form" method="post" action="@Model.entityEndpoint" autocomplete="off">
+        <input type="hidden" name="@Model.type" id="@Model.type" value="@Model.context" />
+        @if (!string.IsNullOrEmpty(Model.relayState))
+        {
+            <input type="hidden" name="RelayState" id="relayState" value="@Model.relayState" />
+        }
+    </form>
+    <script type="text/javascript">
+    function submit(){
+		var  ajaxSubmit ="@Model.ajaxSubmit";
+        if(ajaxSubmit=="true"){
+            var inputs = document.forms[0].getElementsByTagName("input");
+            var data = { ajaxForm: true };
+            for(var i=0,j=inputs.length;i<j;++i){
+               data[inputs[i].id] = inputs[i].value;
+            }
+            $.ajax({
+				type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: document.getElementById('saml-form').action,
+                success: function(daa) {
+                }
+            });
+        }else{
+            document.forms[0].submit();
+        }
+	}
+	submit();
+    </script>
+
+</body>
+
+</html>
