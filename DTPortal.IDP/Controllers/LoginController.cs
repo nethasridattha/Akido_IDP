@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -984,8 +985,27 @@ namespace DTPortal.IDP.Controllers
                     _logger.LogInformation("{0} Logout successfull", User);
                 }
 
-                _logger.LogDebug("<-- Logout");
-                return Redirect(redirect_uri);
+                if (!string.IsNullOrEmpty(redirect_uri))
+                {
+                    bool isValidRedirect = await _clientService.IsLogoutUriExistsAsync(redirect_uri);
+
+                    if (isValidRedirect)
+                    {
+                        return Redirect(redirect_uri);
+                    }
+                    else
+                    {
+                        ViewBag.error = "unauthorized_client";
+                        ViewBag.error_description = "The redirect URI is not registered.";
+                        return View("Error");
+                    }
+                }
+                else
+                {
+                    ViewBag.error = "Invalid Redirect Url";
+                    ViewBag.error_description = "The redirect URI is not registered.";
+                    return View("Error");
+                }
 
 
             }
@@ -1138,9 +1158,28 @@ namespace DTPortal.IDP.Controllers
                 {
                     redirectUrl = model.post_logout_redirect_uri;
                 }
-                _logger.LogDebug("<--OIDCLogout");
-                // Redirect to SP Logout Url
-                return Redirect(redirectUrl);
+
+                if (!string.IsNullOrEmpty(redirectUrl))
+                {
+                    bool isValidRedirect = await _clientService.IsLogoutUriExistsAsync(redirectUrl);
+
+                    if (isValidRedirect)
+                    {
+                        return Redirect(redirectUrl);
+                    }
+                    else
+                    {
+                        ViewBag.error = "unauthorized_client";
+                        ViewBag.error_description = "The redirect URI is not registered.";
+                        return View("Error");
+                    }
+                }
+                else
+                {
+                    ViewBag.error = "Invalid Redirect Url";
+                    ViewBag.error_description = "The redirect URI is not registered.";
+                    return View("Error");
+                }
             }
             catch (Exception e)
             {

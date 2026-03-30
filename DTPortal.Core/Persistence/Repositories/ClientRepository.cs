@@ -102,6 +102,23 @@ namespace DTPortal.Core.Persistence.Repositories
             }
         }
 
+        public async Task<bool> IsLogoutUriExistsAsync(string logoutUri)
+        {
+            try
+            {
+                return await Context.Clients.AsNoTracking()
+                    .AnyAsync(c => c.LogoutUri == logoutUri);
+            }
+            catch (Exception error)
+            {
+
+
+                _logger.LogError(error, "IsRedirectUriExistsAsync::Database exception");
+
+                return false;
+            }
+        }
+
         public async Task<Client> GetClientByClientIdAsync(string clientId)
         {
             try

@@ -223,6 +223,16 @@ namespace DTPortal.Core.Services
             return await _unitOfWork.Client.IsRedirectUriExistsAsync(redirectUri);
         }
 
+        public async Task<bool> IsLogoutUriExistsAsync(string logoutUri)
+        {
+            _logger.LogDebug("---> IsRedirectUriExistsAsync");
+
+            if (string.IsNullOrWhiteSpace(logoutUri))
+                return false;
+
+            return await _unitOfWork.Client.IsLogoutUriExistsAsync(logoutUri);
+        }
+
         public async Task<Client> GetClientProfilesAndPurposesAsync(string clientId)
         {
             _logger.LogDebug("--->GetClientByClientIdAsync");

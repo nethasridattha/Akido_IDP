@@ -48,5 +48,6 @@ namespace DTPortal.Core.Domain.Services
 
         Task<ClientResponse> DeleteClientByClientId(string clientId);
         Task<Dictionary<string, ApplicationInfo>> GetClientOrgApplicationMap();
+        Task<bool> IsLogoutUriExistsAsync(string logoutUri);
     }
 }

@@ -26,7 +26,7 @@ namespace AppShieldRestAPICore.Filters
             Arguments = new object[] {};
         }
     }
-
+    [AllowAnonymous]
     public class APIAuthorizeFilter : ControllerBase, IAsyncAuthorizationFilter
     {
         // Initialize logger

@@ -35,6 +35,7 @@ namespace DTPortal.Core.Domain.Repositories
         Task<string[]> GetClientNamesAsync(string Value);
         Task<IEnumerable<Client>> GetKycClientsList();
         Task<IEnumerable<Client>> ListKycClientByOrgUidAsync(string OrgUid);
+        Task<bool> IsLogoutUriExistsAsync(string logoutUri);
         Task<Client> ListClientByApplicationNameAsync(
             string OrgUid, string applicationName);
     }
