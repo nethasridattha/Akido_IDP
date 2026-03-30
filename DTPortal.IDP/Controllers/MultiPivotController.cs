@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
+﻿using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
-using DTPortal.Core.Domain.Services;
-using System.Net.Http.Headers;
-using Microsoft.Extensions.Configuration;
 using DTPortal.Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace DTPortal.IDP.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class MultiPivotController : BaseController
     {

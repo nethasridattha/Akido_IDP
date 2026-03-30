@@ -3,6 +3,7 @@ using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
 using DTPortal.Core.DTOs;
 using DTPortal.Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -23,6 +24,7 @@ using System.Web;
 namespace DTPortal.IDP.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class MobileAuthenticationController : BaseController
     {

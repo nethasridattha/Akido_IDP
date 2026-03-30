@@ -1,29 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DTPortal.Common;
+using DTPortal.Core.Constants;
+using DTPortal.Core.Domain.Models;
+using DTPortal.Core.Domain.Repositories;
+using DTPortal.Core.Domain.Services;
+using DTPortal.Core.Domain.Services.Communication;
+using DTPortal.Core.Exceptions;
+using DTPortal.Core.Services;
+using DTPortal.Core.Utilities;
+using DTPortal.IDP.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DTPortal.Core.Domain.Models;
-using DTPortal.Core.Domain.Services;
-using DTPortal.Common;
-using DTPortal.IDP.DTOs;
-using DTPortal.Core.Domain.Services.Communication;
-using System.Net.Http.Headers;
-using DTPortal.Core.Services;
-using Microsoft.Extensions.Logging;
-using DTPortal.Core.Domain.Repositories;
-using DTPortal.Core.Utilities;
-using static DTPortal.Common.CommonResponse;
-using System.Text;
-using DTPortal.Core.Constants;
-using Microsoft.Extensions.Configuration;
-using DTPortal.Core.Exceptions;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using static DTPortal.Common.CommonResponse;
 
 namespace DTPortal.IDP.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class IntrospectController : BaseController
     {

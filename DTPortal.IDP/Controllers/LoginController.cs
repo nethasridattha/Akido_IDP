@@ -9,6 +9,7 @@ using DTPortal.IDP.ViewModel.Oauth2;
 using Fido2NetLib;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OtpSharp;
+using PhoneNumbers;
 using QRCoder;
 using System;
-using PhoneNumbers;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -37,6 +38,7 @@ using APIResponse = DTPortal.Core.Domain.Services.Communication.APIResponse;
 namespace DTPortal.IDP.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly DTPortal.Core.Domain.Services.IAuthenticationService

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous]
     [Route("api/[controller]")]
 
     public class ServiceHealthController : BaseController

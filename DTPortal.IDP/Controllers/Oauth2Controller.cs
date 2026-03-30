@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using DTPortal.Core.Constants;
+﻿using DTPortal.Core.Constants;
 using DTPortal.Core.Domain.Models;
 using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
 using DTPortal.Core.Utilities;
 using DTPortal.IDP.Attribute;
 using DTPortal.IDP.ViewModel.Oauth2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.WebUtilities; // Ensure this is at the top of the file
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers
 {
 
     // [CustomAuthorization]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("authorization")]
+    [AllowAnonymous]
     [ServiceFilter(typeof(CustomAuthorizationAttribute))]
     public class Oauth2Controller : Controller
     {

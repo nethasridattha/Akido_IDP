@@ -1,5 +1,6 @@
 ﻿using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class EConsentServiceController : BaseController
     {

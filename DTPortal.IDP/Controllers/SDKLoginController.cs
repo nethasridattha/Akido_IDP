@@ -1,6 +1,7 @@
 ﻿using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
 using Google.Apis.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace DTPortal.IDP.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
 
     public class SDKLoginController : BaseController

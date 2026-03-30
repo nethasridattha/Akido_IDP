@@ -9,6 +9,7 @@ using DTPortal.Core.DTOs;
 using DTPortal.Core.Services;
 using DTPortal.Core.Utilities;
 using DTPortal.IDP.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,7 @@ using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class UserInfoController : BaseController
     {

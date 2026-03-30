@@ -1,19 +1,21 @@
 ﻿using DTPortal.Core.Domain.Services;
+using DTPortal.Core.Domain.Services.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net.Http.Json;
-using Newtonsoft.Json;
-using DTPortal.Core.Domain.Services.Communication;
+using System.Threading.Tasks;
 
 namespace DTPortal.IDP.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class JwksController : Controller
     {

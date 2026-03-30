@@ -1,5 +1,6 @@
 ﻿using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,7 @@ namespace DTPortal.IDP.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     [ApiController]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class UserConsentController : BaseController
     {
