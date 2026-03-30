@@ -2,6 +2,7 @@
 using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
 using DTPortal.Core.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ using static DTPortal.Common.EncryptionLibrary;
 namespace DTPortal.IDP.Controllers.ApiControllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous]
     [Route("api/clients")]
     public class ClientsApiController : BaseController
     {

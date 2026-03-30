@@ -1,6 +1,7 @@
 ﻿using DTPortal.Core.Domain.Models;
 using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers.ApiControllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous]
     [Route("api/[controller]")]
    
     public class AttributeController : BaseController

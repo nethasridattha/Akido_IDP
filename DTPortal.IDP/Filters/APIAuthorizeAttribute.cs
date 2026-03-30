@@ -13,9 +13,11 @@ using DTPortal.Core.Utilities;
 using static DTPortal.Common.CommonResponse;
 using DTPortal.Core.Domain.Services.Communication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppShieldRestAPICore.Filters
 {
+    [AllowAnonymous]
     public class APIAuthorizeAttribute : TypeFilterAttribute
     {
         public APIAuthorizeAttribute() :

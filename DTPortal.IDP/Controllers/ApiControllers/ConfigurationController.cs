@@ -4,6 +4,7 @@ using DTPortal.Core.Domain.Services;
 using DTPortal.Core.Domain.Services.Communication;
 using DTPortal.Core.DTOs;
 using DTPortal.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 namespace DTPortal.IDP.Controllers.ApiControllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class ConfigurationController : BaseController
     {
