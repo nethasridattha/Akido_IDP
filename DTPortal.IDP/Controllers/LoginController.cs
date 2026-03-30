@@ -987,6 +987,11 @@ namespace DTPortal.IDP.Controllers
 
                 if (!string.IsNullOrEmpty(redirect_uri))
                 {
+                    if (!Uri.TryCreate(redirect_uri, UriKind.Absolute, out var uri))
+                    {
+                        return BadRequest("Invalid redirect URI");
+                    }
+
                     bool isValidRedirect = await _clientService.IsLogoutUriExistsAsync(redirect_uri);
 
                     if (isValidRedirect)
@@ -1006,8 +1011,6 @@ namespace DTPortal.IDP.Controllers
                     ViewBag.error_description = "The redirect URI is not registered.";
                     return View("Error");
                 }
-
-
             }
             catch (Exception e)
             {
@@ -1017,7 +1020,6 @@ namespace DTPortal.IDP.Controllers
                 ViewBag.error_description = _helper.GetErrorMsg(ErrorCodes.LOGIN_LOGOUT_METHOD_EXCP);
                 return View("Error");
             }
-
         }
 
         [Route("OIDCLogout")]
@@ -1055,7 +1057,6 @@ namespace DTPortal.IDP.Controllers
                             redirectUrl = model.post_logout_redirect_uri;
                         }
                         _logger.LogDebug("<--OIDCLogout");
-                        // Redirect to SP Logout Url
                         return Redirect(redirectUrl);
                     }
                 }
